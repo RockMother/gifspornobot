@@ -2,4 +2,4 @@
 praw
 pyTelegramBotAPI
 requests
-botan
+
