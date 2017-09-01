@@ -9,10 +9,15 @@ users = {}
 
 def send_gif(chat_id):
   gif = reddit.get_random_gif()
-  keyboard = types.InlineKeyboardMarkup()
-  add_more_button = types.InlineKeyboardButton(text="show more", callback_data="more_clicked")
-  keyboard.add(add_more_button)
-  bot.send_message(chat_id, gif, reply_markup=keyboard)
+  if gif != None:
+    try:
+      keyboard = types.InlineKeyboardMarkup()
+      add_more_button = types.InlineKeyboardButton(text="show more", callback_data="more_clicked")
+      keyboard.add(add_more_button)
+      bot.send_message(chat_id, gif, reply_markup=keyboard)    
+    except:
+      print('Error message send')
+
 
 @bot.message_handler(content_types=["text"])
 def message_handler(message):

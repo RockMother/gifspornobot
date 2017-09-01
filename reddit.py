@@ -18,5 +18,6 @@ def get_random_gif():
     try:
       link = get_link(subreddit.random())
     except:
+      print("No link")
       link = None
   return link
