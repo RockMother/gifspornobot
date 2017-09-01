@@ -23,7 +23,7 @@ def send_gif(chat_id):
 @bot.message_handler(content_types=["text"])
 def message_handler(message):
   send_gif(message.chat.id)
-  sendStats(call.message)
+  sendStats(message)
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
@@ -38,6 +38,8 @@ def sendStats(message):
     uid = message.from_user
     message_dict = message.to_dict()
     botan.track(botan_token, uid, message_dict, 'Show')
+  except:
+    print("Stats send failure")
 
 if __name__ == '__main__':
      bot.polling(none_stop=True)
