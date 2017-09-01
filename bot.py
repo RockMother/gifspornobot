@@ -1,5 +1,6 @@
 import reddit
 import telebot
+import botan
 import os
 from telebot import types
 
@@ -22,12 +23,21 @@ def send_gif(chat_id):
 @bot.message_handler(content_types=["text"])
 def message_handler(message):
   send_gif(message.chat.id)
+  sendStats(call.message)
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
-    if call.message:
-      if call.data == "more_clicked":
-        send_gif(call.message.chat.id)
+  if call.message:
+    if call.data == "more_clicked":
+      send_gif(call.message.chat.id)
+      sendStats(call.message)
+
+def sendStats(message):
+  try:
+    botan_token = os.environ['BOTAN_TOKEN'] # Token got from @botaniobot
+    uid = message.from_user
+    message_dict = message.to_dict()
+    botan.track(botan_token, uid, message_dict, 'Show')
 
 if __name__ == '__main__':
      bot.polling(none_stop=True)
