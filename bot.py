@@ -35,7 +35,7 @@ def callback_inline(call):
 def sendStats(message):
   try:
     botan_token = os.environ['BOTAN_TOKEN'] # Token got from @botaniobot
-    uid = message.from_user
+    uid = message.from_user.id
     message_dict = message.to_dict()
     botan.track(botan_token, uid, message_dict, 'Show')
   except:
