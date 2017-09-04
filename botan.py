@@ -1,18 +1,22 @@
-# ----------------
-# dont forget 'pip install requests' first
-# ----------------
-# usage example:
-#
-# import botan
-#
-# print botan.track(1111, 1, {'text':2}, 'Search')
+# -*- coding: utf-8 -*-
+# Modified for pyTelegramBotAPI (https://github.com/eternnoir/pyTelegramBotAPI/)
 
 import requests
 import json
 
-
 TRACK_URL = 'https://api.botan.io/track'
-SHORTENER_URL = 'https://api.botan.io/s/'
+
+def make_json(message):
+    data = {}
+    data['message_id'] = message.message_id
+    data['from'] = {}
+    data['from']['id'] = message.from_user.id
+    if message.from_user.username is not None:
+        data['from']['username'] = message.from_user.username
+    data['chat'] = {}
+
+    data['chat']['id'] = message.chat.id
+    return data
 
 
 def track(token, uid, message, name='Message'):
@@ -20,7 +24,7 @@ def track(token, uid, message, name='Message'):
         r = requests.post(
             TRACK_URL,
             params={"token": token, "uid": uid, "name": name},
-            data=json.dumps(message),
+            data=make_json(message),
             headers={'Content-type': 'application/json'},
         )
         return r.json()
@@ -31,17 +35,3 @@ def track(token, uid, message, name='Message'):
         # catastrophic error
         print(e)
         return False
-
-
-def shorten_url(url, botan_token, user_id):
-    """
-    Shorten URL for specified user of a bot
-    """
-    try:
-        return requests.get(SHORTENER_URL, params={
-            'token': botan_token,
-            'url': url,
-            'user_ids': str(user_id),
-        }).text
-    except:
-        return url
