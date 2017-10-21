@@ -3,6 +3,7 @@
 
 import requests
 import json
+import os
 
 TRACK_URL = 'https://api.botan.io/track'
 
@@ -20,18 +21,19 @@ def make_json(message):
 
 
 def track(token, uid, message, name='Message'):
-    try:
-        r = requests.post(
-            TRACK_URL,
-            params={"token": token, "uid": uid, "name": name},
-            data=make_json(message),
-            headers={'Content-type': 'application/json'},
-        )
-        return r.json()
-    except requests.exceptions.Timeout:
-        # set up for a retry, or continue in a retry loop
-        return False
-    except (requests.exceptions.RequestException, ValueError) as e:
-        # catastrophic error
-        print(e)
-        return False
+    if "debug" not in os.environ:
+        try:
+            r = requests.post(
+                TRACK_URL,
+                params={"token": token, "uid": uid, "name": name},
+                data=make_json(message),
+                headers={'Content-type': 'application/json'},
+            )
+            return r.json()
+        except requests.exceptions.Timeout:
+            # set up for a retry, or continue in a retry loop
+            return False
+        except (requests.exceptions.RequestException, ValueError) as e:
+            # catastrophic error
+            print(e)
+            return False

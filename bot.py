@@ -4,12 +4,16 @@ import botan
 import os
 from telebot import types
 
+if 'debug' in os.environ:
+  import devenv
+  devenv.init()
+
 bot = telebot.TeleBot(os.environ['TELEGRAM_TOKEN'])
 
 users = {}
 
 def send_gif(chat_id):
-  gif = reddit.get_random_gif()
+  gif = reddit.get_next_link(chat_id)
   if gif != None:
     try:
       keyboard = types.InlineKeyboardMarkup()
@@ -42,3 +46,5 @@ def sendStats(message):
 
 if __name__ == '__main__':
      bot.polling(none_stop=True)
+
+ 
