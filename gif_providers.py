@@ -1,7 +1,6 @@
 """
 Gets GIFs from reddit 
 """
-import collections
 import praw
 import link_extractors
 
