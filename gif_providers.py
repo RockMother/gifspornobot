@@ -30,7 +30,7 @@ class GifRedditProvider():
                 link = link_extractors.RedditLinkExtractor.extract(submission)
                 if link != None:
                     result = {'link': link, 'id': submission.id}
-                break
+                    break
         return result
 
 

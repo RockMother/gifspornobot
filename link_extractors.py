@@ -5,8 +5,9 @@ class RedditLinkExtractor():
     def extract(submission):
         """ Extract link from submission """
         media = submission.media
-        if media['type'] == 'gfycat.com' or media['type'] == 'imgur.com':
-            oembed = media['oembed']
-            return oembed['thumbnail_url']
-        else:
-            return None
+        if media:
+            media_type = media['type']
+            if media_type == 'gfycat.com' or media_type == 'imgur.com':
+                oembed = media['oembed']
+                return oembed['thumbnail_url']
+        return None
